@@ -7,27 +7,42 @@
     <link rel="stylesheet" href="styles/blog.css">
 </head>
 <body>
+<!-- Container for the background -->
+<div id="particles-js"></div>
+
+<!-- Main content container for the blog -->
 <div class="blog-container">
-    <h1>Ashesh Development Blog</h1>
-    <div class="post" onclick="openModal(this)" data-audio="music/blog1.mp3">
-        <h2>Blog Post Title 1</h2>
-        <p>Summary of blog post content...</p>
-    </div>
-    <div class="post" onclick="openModal(this)" data-audio="music/blog2.mp3">
-        <h2>Blog Post Title 2</h2>
-        <p>Summary of blog post content...</p>
-    </div>
+    <h2>Click here to read: "Brothers Not by Blood, But by Destiny: The Tale of Terra and Black Snow"</h2>
+    <p>This story explores the profound connections beyond blood ties.</p>
 </div>
+
+<!-- Modal for displaying post details -->
 <div id="blogModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
-        <h2 id="postTitle"></h2>
-        <p id="postContent"></p>
+        <h2 id="postTitle">Brothers Not by Blood, But by Destiny: The Tale of Terra and Black Snow</h2>
+        <p id="postContent">
+            <!-- Full story content will be loaded here via JavaScript -->
+        </p>
+    </div>
+</div>
+
+<!-- Separate Modal for the audio player -->
+<div id="audioModal" class="audio-modal">
+    <div class="audio-modal-content">
+        <span class="audio-close">&times;</span>
+        <img id="audioThumbnail" src="image/thumbnails/terrablogbgm-thumb.png" alt="Thumbnail" class="audio-thumbnail">
+        <div class="audio-info">
+            <h3 id="audioTitle">Terra and Black Snow</h3>
+            <p id="audioAuthor">Black Snow aka Ashesh</p>
+        </div>
         <audio controls autoplay id="postMusic">
-            <source src="" type="audio/mpeg">
+            <source src="audio/terrablogbgm.mp3" type="audio/mpeg">
         </audio>
     </div>
 </div>
+
+<!-- Scripts for enhanced functionality -->
 <script src="scripts/blog.js"></script>
 </body>
 </html>
