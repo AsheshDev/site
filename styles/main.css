@@ -1,29 +1,31 @@
-/* General Styles */
-body {
+body, html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: 'Arial', sans-serif;
-  background-color: #000;
-  color: #ffd700;
+  background-color: #1a1a1a;
+  color: #f2f2f2;
 }
-.container {
-  max-width: 1200px;
-  margin: auto;
+header {
+  background-color: #2c2c2c;
   padding: 20px;
+  text-align: center;
 }
-
-/* Section Styles */
+nav a {
+  color: #f2f2f2;
+  margin: 0 10px;
+  text-decoration: none;
+}
+nav a:hover {
+  color: #ffffff;
+}
 section {
-  margin-bottom: 20px;
+  padding: 20px;
+  border-top: 1px solid #404040;
 }
-
-/* Roadmap Styles */
-.roadmap-container {
-  display: flex;
-  overflow-x: auto;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .container {
-    padding: 10px;
-  }
+footer {
+  background-color: #2c2c2c;
+  color: #cccccc;
+  text-align: center;
+  padding: 10px;
 }
