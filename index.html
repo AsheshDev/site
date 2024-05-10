@@ -1,118 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ashesh Development</title>
-<style>
-  body {
-    background-color: black;
-    color: gold;
-    font-family: 'Courier New', monospace;
-  }
-  .container {
-    width: 95%;
-    margin: auto;
-    overflow: hidden;
-  }
-  header, section, footer {
-    padding: 20px 0;
-  }
-  nav ul {
-    list-style: none;
-    padding: 0;
-  }
-  nav ul li {
-    display: inline;
-    margin-right: 10px;
-  }
-  a {
-    color: gold;
-    text-decoration: none;
-  }
-  a:hover {
-    text-decoration: underline;
-  }
-  @media (max-width: 700px) {
-    nav ul li {
-      display: block;
-      margin-bottom: 5px;
-    }
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashesh Development</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: black;
+            color: gold;
+            font-family: 'Courier New', monospace;
+        }
+        .container {
+            width: 100%;
+            overflow: hidden;
+        }
+        header, section, footer {
+            padding: 20px 0;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            white-space: nowrap;
+            overflow-x: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE 10+ */
+        }
+        nav ul::-webkit-scrollbar { /* Chrome, Safari, Opera */
+            display: none;
+        }
+        nav ul li {
+            flex: 0 0 auto;
+            margin: 0 10px;
+            scroll-snap-align: start;
+        }
+        a {
+            color: gold;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .section {
+            scroll-snap-type: y mandatory;
+            padding: 50px 10px;
+            text-align: center;
+        }
+        .section-item {
+            background-color: #333;
+            color: #ffd700;
+            padding: 20px;
+            margin: 10px auto;
+            width: 80%;
+            scroll-snap-align: start;
+        }
+        @media (max-width: 768px) {
+            .section-item {
+                width: 90%;
+            }
+        }
+    </style>
 </head>
 <body>
-<header>
-  <div class="container">
-    <h1>Ashesh Development</h1>
-    <nav>
-      <ul>
-        <li><a href="#news">News</a></li>
-        <li><a href="#roadmap">Roadmap</a></li>
-        <li><a href="#author">Author</a></li>
-        <li><a href="#working-on">Working On</a></li>
-        <li><a href="#tools">Tools</a></li>
-        <li><a href="#blog">Blog</a></li>
-        <li><a href="#games">Games</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
+    <header>
+        <div class="container">
+            <h1>Ashesh Development</h1>
+            <nav>
+                <ul>
+                    <li><a href="#news">News</a></li>
+                    <li><a href="#roadmap">Roadmap</a></li>
+                    <li><a href="#author">Author</a></li>
+                    <li><a href="#working-on">Working On</a></li>
+                    <li><a href="#tools">Tools</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#games">Games</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-<section id="news">
-  <div class="container">
-    <h2>News</h2>
-    <!-- News content goes here -->
-  </div>
-</section>
+    <section id="news" class="section">
+        <div class="section-item">
+            <!-- News content goes here -->
+            <h2>Latest News</h2>
+            <p>Stay updated with the latest developments.</p>
+        </div>
+    </section>
 
-<section id="roadmap">
-  <div class="container">
-    <h2>Roadmap</h2>
-    <!-- Roadmap content goes here -->
-  </div>
-</section>
+    <section id="roadmap" class="section">
+        <div class="section-item">
+            <!-- Roadmap content goes here -->
+            <h2>Roadmap</h2>
+            <p>Check out our future plans and updates.</p>
+        </div>
+    </section>
 
-<section id="author">
-  <div class="container">
-    <h2>Author Details</h2>
-    <!-- Author content goes here -->
-  </div>
-</section>
+    <section id="author" class="section">
+        <div class="section-item">
+            <!-- Author content goes here -->
+            <h2>About the Author</h2>
+            <p>Learn more about the person behind Ashesh Development.</p>
+        </div>
+    </section>
 
-<section id="working-on">
-  <div class="container">
-    <h2>Currently Developing</h2>
-    <!-- Current games developing content goes here -->
-  </div>
-</section>
+    <section id="working-on" class="section">
+        <div class="section-item">
+            <!-- Current projects content goes here -->
+            <h2>Currently Developing</h2>
+            <p>Discover what games are in the works.</p>
+        </div>
+    </section>
 
-<section id="tools">
-  <div class="container">
-    <h2>Tools I Use</h2>
-    <!-- Tools content goes here -->
-  </div>
-</section>
+    <section id="tools" class="section">
+        <div class="section-item">
+            <!-- Tools content goes here -->
+            <h2>Tools I Use</h2>
+            <p>Explore the tools that power my development process.</p>
+        </div>
+    </section>
 
-<section id="blog">
-  <div class="container">
-    <h2>Personal Blog</h2>
-    <!-- Blog content goes here -->
-  </div>
-</section>
+    <section id="blog" class="section">
+        <div class="section-item">
+            <!-- Blog content goes here -->
+            <h2>Personal Blog</h2>
+            <p>Read my thoughts and insights on game development.</p>
+        </div>
+    </section>
 
-<section id="games">
-  <div class="container">
-    <h2>Games Links</h2>
-    <!-- Games links content goes here -->
-  </div>
-</section>
+    <section id="games" class="section">
+        <div class="section-item">
+            <!-- Games links content goes here -->
+            <h2>Game Links</h2>
+            <p>Find links to all my games here.</p>
+        </div>
+    </section>
 
-<footer>
-  <div class="container">
-    <!-- Footer content goes here -->
-  </div>
-</footer>
-
+    <footer>
+        <div class="container">
+            <!-- Footer content goes here -->
+            <p>© 2024 Ashesh Development. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>
