@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tantra Genesis M Blog</title>
+    <link rel="stylesheet" href="styles/blog.css">
+</head>
+<body>
+    <div class="blog-container">
+        <h1>Tantra Genesis M Blog</h1>
+        <!-- List of Blog Posts -->
+        <div class="post" onclick="openModal('post1', 'music/blog1.mp3')">
+            <h2>Blog Post Title 1</h2>
+            <p>Summary of blog post content...</p>
+        </div>
+        <div class="post" onclick="openModal('post2', 'music/blog2.mp3')">
+            <h2>Blog Post Title 2</h2>
+            <p>Summary of blog post content...</p>
+        </div>
+        <!-- More posts -->
+    </div>
+    <!-- Blog Post Modal -->
+    <div id="blogModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="postTitle"></h2>
+            <p id="postContent"></p>
+            <audio controls autoplay>
+                <source id="postMusic" src="" type="audio/mpeg">
+                Your browser does not support the audio tag.
+            </audio>
+        </div>
+    </div>
+    <script src="scripts/blog.js"></script>
+</body>
+</html>
