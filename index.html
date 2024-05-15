@@ -1,14 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Copy PowerShell Script to Clipboard</title>
-</head>
-<body>
-<h1>Install Software</h1>
-<button id="copyButton">Copy Installation Script to Clipboard</button>
-<textarea id="powershellScript" style="display:none;">
 function Show-Menu {
     param (
         [string]$title = 'Menu'
@@ -213,18 +202,3 @@ Remove-Item "$env:TEMP\KasperskySetup.exe" -ErrorAction SilentlyContinue
 Remove-Item "$env:TEMP\fxSoundSetup.exe" -ErrorAction SilentlyContinue
 
 Write-Output "Installation complete!"
-</textarea>
-<script>
-  document.getElementById("copyButton").addEventListener("click", function() {
-    var powershellScript = document.getElementById("powershellScript").value;
-    var textArea = document.createElement("textarea");
-    textArea.value = powershellScript;
-    document.body.appendChild(textArea);
-    textArea.select();
-    document.execCommand("copy");
-    document.body.removeChild(textArea);
-    alert("PowerShell script copied to clipboard!");
-  });
-</script>
-</body>
-</html>
