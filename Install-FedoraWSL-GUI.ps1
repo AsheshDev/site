@@ -1,14 +1,14 @@
 # AsheshDevelopment
-# Filename: Install-FedoraWSL-GUI.ps1
+# Filename: Install-FedoraWSL-GUI-Menu.ps1
 
 <#
 .SYNOPSIS
     PowerShell script to install Fedora on WSL with Desktop GUI 
-    and set up a development environment with detailed logging.
+    and set up a development environment with a detailed GUI menu.
 .DESCRIPTION
-    This script provides a graphical user interface (GUI) for entering Git 
-    credentials, installs Fedora on WSL, and configures the environment 
-    for development with a GNOME Desktop GUI.
+    This script provides a graphical user interface (GUI) with a menu for 
+    various operations like installing Fedora, updating the system, 
+    installing development tools, and configuring the environment.
     The script uses color-coded debug logs for detailed output.
 #>
 
@@ -38,24 +38,24 @@ function Show-Message {
 
 # =============================================
 # Function: Create-GUI
-# Description: Creates a WPF GUI for entering Git credentials
+# Description: Creates a WPF GUI with a menu for operations
 # =============================================
 function Create-GUI {
-    Show-Message "Creating GUI for user input..." "Info"
+    Show-Message "Creating GUI menu for user interaction..." "Info"
     Add-Type -AssemblyName PresentationFramework
 
     $XAML = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Fedora WSL Installation" Height="250" Width="400">
+        Title="Fedora WSL Installation" Height="350" Width="500">
     <Grid>
-        <Label Content="Git User Name:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
-        <TextBox Name="GitUserName" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,10,0,0" Width="250"/>
+        <Label Content="Fedora WSL Installation Menu" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0" FontSize="16" FontWeight="Bold"/>
         
-        <Label Content="Git User Email:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,50,0,0"/>
-        <TextBox Name="GitUserEmail" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,50,0,0" Width="250"/>
-        
-        <Button Name="InstallButton" Content="Install" Width="100" Height="30" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20" />
+        <Button Name="InstallFedoraButton" Content="Install Fedora on WSL" Width="250" Height="30" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,70,0,0"/>
+        <Button Name="UpdateSystemButton" Content="Update Fedora System" Width="250" Height="30" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,110,0,0"/>
+        <Button Name="InstallDevToolsButton" Content="Install Development Tools" Width="250" Height="30" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,150,0,0"/>
+        <Button Name="InstallGNOMEButton" Content="Install GNOME Desktop GUI" Width="250" Height="30" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,190,0,0"/>
+        <Button Name="ConfigureGUIButton" Content="Configure GUI Settings" Width="250" Height="30" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,230,0,0"/>
     </Grid>
 </Window>
 "@
@@ -63,13 +63,27 @@ function Create-GUI {
     $Reader = New-Object System.Xml.XmlNodeReader $XAML
     $Window = [System.Windows.Markup.XamlReader]::Load($Reader)
     
-    $Window.FindName("InstallButton").Add_Click({
-        $Global:GitUserName = $Window.FindName("GitUserName").Text
-        $Global:GitUserEmail = $Window.FindName("GitUserEmail").Text
-        Show-Message "User credentials captured: $Global:GitUserName, $Global:GitUserEmail" "Info"
-        $Window.Close()
+    # Button Actions
+    $Window.FindName("InstallFedoraButton").Add_Click({
+        Install-FedoraWSL
     })
-    
+
+    $Window.FindName("UpdateSystemButton").Add_Click({
+        Update-System
+    })
+
+    $Window.FindName("InstallDevToolsButton").Add_Click({
+        Install-DevTools
+    })
+
+    $Window.FindName("InstallGNOMEButton").Add_Click({
+        Install-GNOME
+    })
+
+    $Window.FindName("ConfigureGUIButton").Add_Click({
+        Configure-GUI
+    })
+
     $Window.ShowDialog() | Out-Null
 }
 
@@ -120,37 +134,6 @@ function Install-DevTools {
 }
 
 # =============================================
-# Function: Setup-Git
-# Description: Configures Git with user credentials
-# =============================================
-function Setup-Git {
-    Show-Message "Configuring Git with user credentials..." "Info"
-    try {
-        wsl -d Fedora -- bash -c "git config --global user.name '$Global:GitUserName'"
-        wsl -d Fedora -- bash -c "git config --global user.email '$Global:GitUserEmail'"
-        Show-Message "Git configured successfully." "Success"
-    } catch {
-        Show-Message "Failed to configure Git." "Error"
-        exit 1
-    }
-}
-
-# =============================================
-# Function: Install-ExtraPackages
-# Description: Installs additional development packages
-# =============================================
-function Install-ExtraPackages {
-    Show-Message "Installing additional development packages..." "Info"
-    try {
-        wsl -d Fedora -- bash -c "sudo dnf install gcc gcc-c++ make python3 python3-pip nodejs npm SDL2-devel mesa-libGL-devel -y"
-        Show-Message "Additional development packages installed successfully." "Success"
-    } catch {
-        Show-Message "Failed to install additional development packages." "Error"
-        exit 1
-    }
-}
-
-# =============================================
 # Function: Install-GNOME
 # Description: Installs GNOME Desktop Environment
 # =============================================
@@ -187,16 +170,7 @@ function Configure-GUI {
 # =============================================
 Show-Message "Initiating Fedora WSL installation process..." "Info"
 
-# Show the GUI and get the credentials
+# Show the GUI menu and wait for user interaction
 Create-GUI
 
-# Install Fedora WSL and configure the environment
-Install-FedoraWSL
-Update-System
-Install-DevTools
-Setup-Git
-Install-ExtraPackages
-Install-GNOME
-Configure-GUI
-
-Show-Message "Fedora WSL installation with GNOME Desktop GUI and development setup complete!" "Success"
+Show-Message "Fedora WSL installation and configuration complete!" "Success"
