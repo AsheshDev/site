@@ -1,14 +1,30 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title }}</title>
-  </head>
-  <body>
-    <header>
-      <h1>{{ site.title }}</h1>
+    <link rel="stylesheet" href="{{ '/assets/css/styles.css' | relative_url }}">
+</head>
+<body>
+    <header class="hero">
+        <h1>Welcome to RetroSpace</h1>
+        <p>A Minimalist Retro Experience</p>
+        <a href="#about" class="btn">Discover More</a>
     </header>
-    <main>
-      {{ content }}
-    </main>
-  </body>
+
+    <section id="about" class="section about">
+        <h2>About Us</h2>
+        <p>RetroSpace is a timeless blend of modern minimalism and 80s nostalgia.</p>
+    </section>
+
+    <section id="contact" class="section contact">
+        <h2>Contact</h2>
+        <p>Reach us at <a href="mailto:info@retrospace.com">info@retrospace.com</a></p>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 RetroSpace. All rights reserved.</p>
+    </footer>
+</body>
 </html>

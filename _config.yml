@@ -5,8 +5,8 @@ title: "AsheshDev"
 email: "asheshplays.matrix777@passinbox.com"
 description: >-
   Welcome to Ashesh's Development site. This is the official documentation and portfolio.
-baseurl: "/asheshdev" # The repository name on GitHub.
-url: "https://asheshplays.github.io" # Your GitHub Pages URL.
+baseurl: "/site" # The repository name on GitHub.
+url: "https://asheshdev.github.io" # Your GitHub Pages URL.
 
 # Theme and plugins
 theme: minima
