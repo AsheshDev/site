@@ -23,7 +23,7 @@
     Additional packages to install in the Debian environment.
 
 .EXAMPLE
-    .\WslDebianSetup.ps1
+    iwr -useb 'https://raw.githubusercontent.com/AsheshDev/site/refs/heads/main/WslDebianSetup.ps1' | iex
 
 .NOTES
     Author: AsheshDevelopment
@@ -72,7 +72,7 @@ function Check-Admin {
     Write-Log "Checking if the script is running with Administrator privileges..." "INFO"
     if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
         Write-Log "Not running as Administrator. Restarting with elevated privileges..." "WARNING"
-        Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
+        Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -Command `"iwr -useb 'https://raw.githubusercontent.com/AsheshDev/site/refs/heads/main/WslDebianSetup.ps1' | iex`"" -Verb RunAs
         exit
     } else {
         Write-Log "Script is running with Administrator privileges." "SUCCESS"

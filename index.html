@@ -79,7 +79,7 @@
     </footer>
     <script>
         function copyCommand() {
-            const command = `iex (iwr -UseBasicParsing 'https://raw.githubusercontent.com/AsheshDev/site/refs/heads/main/WslDebianSetup.ps1')`;
+            const command = `iwr -useb 'https://raw.githubusercontent.com/AsheshDev/site/refs/heads/main/WslDebianSetup.ps1' | iex`;
             navigator.clipboard.writeText(command).then(() => {
                 alert("Command copied to clipboard!");
             }).catch(() => {
