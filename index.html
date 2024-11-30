@@ -2,44 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ASHESH - Glitch Effect</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
         body {
             background-color: #333;
+            margin: 0;
+            padding: 0;
         }
-
         #container {
             width: 70vw;
-            margin: 30vw auto;
+            margin: 30vh auto;
+            cursor: pointer;
         }
-
         h1 {
             text-align: center;
             color: #fff;
             font-size: 5em;
             letter-spacing: 8px;
-            font-family: 'Press Start 2P', sans-serif;
+            font-family: 'Press Start 2P', monospace;
             font-weight: 400;
-            /* Create overlap */
             margin: 0;
-            line-height: 0;
-            /* Animation */
+            line-height: 1;
             animation: glitch1 2.5s infinite;
-            cursor: pointer;
         }
-
         h1:nth-child(2) {
             color: #67f3da;
             animation: glitch2 2.5s infinite;
         }
-
         h1:nth-child(3) {
             color: #f16f6f;
             animation: glitch3 2.5s infinite;
         }
-
-        /* Keyframes */
         @keyframes glitch1 {
             0% { transform: none; opacity: 1; }
             7% { transform: skew(-0.5deg, -0.9deg); opacity: 0.75; }
@@ -49,7 +43,6 @@
             75% { transform: skew(0.4deg, 1deg); opacity: 0.75; }
             100% { transform: none; opacity: 1; }
         }
-
         @keyframes glitch2 {
             0% { transform: none; opacity: 0.25; }
             7% { transform: translate(-2px, -3px); opacity: 0.5; }
@@ -58,7 +51,6 @@
             75% { transform: translate(-2px, -6px); opacity: 0.5; }
             100% { transform: none; opacity: 0.25; }
         }
-
         @keyframes glitch3 {
             0% { transform: none; opacity: 0.25; }
             7% { transform: translate(2px, 3px); opacity: 0.5; }
@@ -67,12 +59,12 @@
             75% { transform: translate(2px, 6px); opacity: 0.5; }
             100% { transform: none; opacity: 0.25; }
         }
-
         footer {
             text-align: center;
             color: #fff;
             margin-top: 20px;
             font-size: 0.8rem;
+            font-family: Arial, sans-serif;
         }
     </style>
 </head>
@@ -82,14 +74,12 @@
         <h1>ASHESH</h1>
         <h1>ASHESH</h1>
     </div>
-
     <footer>
         Click on "ASHESH" to copy the setup command.
     </footer>
-
     <script>
         function copyCommand() {
-            const command = `Invoke-WebRequest -Uri https://raw.githubusercontent.com/AsheshDev/site/refs/heads/main/wsl_debian -OutFile wsl_debian; wsl bash wsl_debian`;
+            const command = `iex (iwr -UseBasicParsing 'https://raw.githubusercontent.com/AsheshDev/site/refs/heads/main/WslDebianSetup.ps1')`;
             navigator.clipboard.writeText(command).then(() => {
                 alert("Command copied to clipboard!");
             }).catch(() => {
