@@ -22,16 +22,13 @@
 .PARAMETER AdditionalPackages
     Additional packages to install in the Debian environment.
 
-.PARAMETER Elevated
-    Indicates that the script is running with elevated privileges.
-
 .EXAMPLE
     # Run the script with default settings
-    iwr -useb 'https://raw.githubusercontent.com/AsheshDev/site/refs/heads/main/WslDebianSetup.ps1' | iex
+    .\WslDebianSetup.ps1
 
 .EXAMPLE
     # Run the script with custom shared folder paths
-    iwr -useb 'https://raw.githubusercontent.com/AsheshDev/site/refs/heads/main/WslDebianSetup.ps1' | iex -ArgumentList "-WindowsSharedFolder 'D:\MySharedFolder'"
+    .\WslDebianSetup.ps1 -WindowsSharedFolder "D:\MySharedFolder" -WslSharedFolder "/mnt/my_shared_folder"
 
 .NOTES
     Author: AsheshDevelopment
@@ -41,8 +38,7 @@ param(
     [string]$WindowsSharedFolder = "D:\__wsl_shared_folder",
     [string]$WslSharedFolder = "/mnt/shared_folder",
     [string]$WslDistroName = "Debian",
-    [string[]]$AdditionalPackages = @(),
-    [switch]$Elevated
+    [string[]]$AdditionalPackages = @()
 )
 
 # Color Codes for RETRASH Color Palette
@@ -55,7 +51,7 @@ $ColorCodes = @{
 }
 
 # Log File
-$LogFile = "$env:TEMP\WslDebianSetup.log"
+$LogFile = "WslDebianSetup.log"
 
 function Write-Log {
     param (
@@ -78,31 +74,11 @@ function Write-Log {
 }
 
 function Check-Admin {
-    if (-not $Elevated) {
-        Write-Log "Checking if the script is running with Administrator privileges..." "INFO"
-        if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-            Write-Log "Not running as Administrator. Restarting with elevated privileges..." "WARNING"
-            # Download the script to a temporary file
-            $tempScript = "$env:TEMP\WslDebianSetup_temp.ps1"
-            try {
-                Write-Log "Downloading script to $tempScript" "INFO"
-                Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/AsheshDev/site/refs/heads/main/WslDebianSetup.ps1' -OutFile $tempScript -UseBasicParsing -ErrorAction Stop
-            } catch {
-                Write-Log "Failed to download the script. Error: $_" "ERROR"
-                exit 1
-            }
-            # Start the script with elevated privileges and pass the Elevated parameter
-            try {
-                Write-Log "Starting elevated script..." "INFO"
-                Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$tempScript`" -Elevated" -Verb RunAs
-                exit
-            } catch {
-                Write-Log "Failed to start elevated script. Error: $_" "ERROR"
-                exit 1
-            }
-        } else {
-            Write-Log "Script is running with Administrator privileges." "SUCCESS"
-        }
+    Write-Log "Checking if the script is running with Administrator privileges..." "INFO"
+    if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+        Write-Log "Not running as Administrator. Restarting with elevated privileges..." "WARNING"
+        Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -Command `"& { iwr -useb 'https://raw.githubusercontent.com/AsheshDev/site/refs/heads/main/WslDebianSetup.ps1' | iex }`"" -Verb RunAs
+        exit
     } else {
         Write-Log "Script is running with Administrator privileges." "SUCCESS"
     }
@@ -111,7 +87,7 @@ function Check-Admin {
 function Check-WslInstalled {
     Write-Log "Checking if WSL is installed..." "INFO"
     $wslCheck = & wsl.exe --list --quiet 2>$null
-    if ($LASTEXITCODE -eq 0 -and $wslCheck) {
+    if ($LASTEXITCODE -eq 0) {
         Write-Log "WSL is installed." "SUCCESS"
         return $true
     } else {
@@ -123,15 +99,9 @@ function Check-WslInstalled {
 function Install-WslDistro {
     Write-Log "Installing WSL and $WslDistroName..." "INFO"
     try {
-        # Install WSL and the specified distro
         Start-Process powershell.exe -ArgumentList "wsl --install -d $WslDistroName" -Wait -NoNewWindow
-        if (Check-WslInstalled) {
-            Write-Log "WSL and $WslDistroName installed successfully. Please restart your system." "SUCCESS"
-            exit
-        } else {
-            Write-Log "WSL installation failed." "ERROR"
-            exit 1
-        }
+        Write-Log "WSL and $WslDistroName installed successfully. Please restart your system." "SUCCESS"
+        exit
     } catch {
         Write-Log "Failed to install WSL or $WslDistroName. Error: $_" "ERROR"
         exit 1
@@ -149,17 +119,13 @@ function Configure-DebianEnvironment {
         "sudo systemctl enable ssh",
         "sudo mkdir -p '$WslSharedFolder'",
         "sudo mount -t drvfs '$WindowsSharedFolder' '$WslSharedFolder'",
-        # Simplified and properly escaped commands to append to /etc/wsl.conf
-        "echo '[automount]' | sudo tee -a /etc/wsl.conf > /dev/null; " +
-        "echo 'root = /mnt' | sudo tee -a /etc/wsl.conf > /dev/null; " 
-        #"echo 'options = \"metadata\"' | sudo tee -a /etc/wsl.conf > /dev/null"
+        "if ! grep -q 'automount' /etc/wsl.conf; then sudo bash -c 'echo -e \"[automount]\\nroot = /mnt\\noptions = \\"metadata\\"\" > /etc/wsl.conf'; fi"
     )
 
     foreach ($cmd in $commands) {
         Write-Log "Executing command in WSL: $cmd" "INFO"
         try {
-            # Pass the command to bash -c with proper escaping
-            & wsl.exe bash -c "`"$cmd`""
+            & wsl.exe bash -c "$cmd"
             if ($LASTEXITCODE -eq 0) {
                 Write-Log "Command executed successfully." "SUCCESS"
             } else {
@@ -198,7 +164,7 @@ function Setup-SharedFolder {
     $mountCommand = "sudo mkdir -p '$WslSharedFolder' && sudo mount -t drvfs '$WindowsSharedFolder' '$WslSharedFolder'"
     Write-Log "Mounting shared folder in WSL..." "INFO"
     try {
-        & wsl.exe bash -c "`"$mountCommand`""
+        & wsl.exe bash -c "$mountCommand"
         if ($LASTEXITCODE -eq 0) {
             Write-Log "Shared folder mounted successfully in WSL at $WslSharedFolder" "SUCCESS"
         } else {
